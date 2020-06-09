@@ -142,6 +142,30 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         return articles.count
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let alert = UIAlertController(title: "선택완료", message: "이동할까요?", preferredStyle: .alert)
+        let alertAct01 = UIAlertAction(title: "확인", style: .default) { (_) in
+            print("이동완료")
+        }
+        let alertAct02 = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+
+        alert.addAction(alertAct01)
+        alert.addAction(alertAct02)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let addAct = UIContextualAction(style: .destructive, title: "Delete") { (action, sourceView, handler) in
+            print("Delete")
+            handler(true)
+        }
+        addAct.backgroundColor = .red
+        addAct.image = UIImage(systemName: "trash")
+        
+        let swipeConf = UISwipeActionsConfiguration(actions: [addAct])
+        
+        return swipeConf
+    }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
