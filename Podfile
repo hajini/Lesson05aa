@@ -6,6 +6,7 @@ target 'Lesson05a' do
   use_frameworks!
 
 pod 'Kingfisher'
+pod 'Alamofire'
 
   # Pods for Lesson05a
 

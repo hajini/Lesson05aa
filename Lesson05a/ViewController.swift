@@ -8,6 +8,7 @@
 
 import UIKit
 import Kingfisher
+import Alamofire
 
 class ViewController: UIViewController {
 
@@ -44,23 +45,38 @@ class ViewController: UIViewController {
         }
         let request = URLRequest(url: articleURL)
         //Network 시작
-        URLSession.shared.dataTask(with: request) { (data, response, err) in
-            if err != nil {
-                print(err?.localizedDescription)
+        
+        
+        AF.request(request).responseData { (data) in
+            if data.error != nil {
+                print(data.error.debugDescription)
+                
                 return
             }
-            if data != nil {
-                
-                self.articles = self.parsingJsonData(data: data!)
-                
-                OperationQueue.main.addOperation {
-                    self.tableView01.reloadData()
-                }
-                
+            self.articles = self.parsingJsonData(data: data.data!)
+            
+            DispatchQueue.main.async {
+                self.tableView01.reloadData()
             }
             
-            
-        }.resume()
+        }
+//        URLSession.shared.dataTask(with: request) { (data, response, err) in
+//            if err != nil {
+//                print(err?.localizedDescription)
+//                return
+//            }
+//            if data != nil {
+//
+//                self.articles = self.parsingJsonData(data: data!)
+//
+//                OperationQueue.main.addOperation {
+//                    self.tableView01.reloadData()
+//                }
+//
+//            }
+//
+//
+//        }.resume()
         
     }
     
